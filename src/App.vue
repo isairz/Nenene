@@ -1,28 +1,34 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <hello></hello>
+    <navbar></navbar>
+    <sidebar></sidebar>
+    <section class="app-view">
+      <transition name="fade" mode="out-in">
+        <router-view class="container is-fluid"></router-view>
+      </transition>
+    </section>
   </div>
 </template>
 
 <script>
-import Hello from './components/Hello'
+import Navbar from './components/Navbar.vue'
+import Sidebar from './components/Sidebar.vue'
 
 export default {
-  name: 'app',
   components: {
-    Hello
-  }
+    Navbar,
+    Sidebar,
+  },
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="sass">
+@import '~bulma'
+.app-view
+  padding-top: 50px
+  margin-left: 180px
+  transform: translateZ(0)
+  .container
+    margin: 0
+    padding: 20px
 </style>

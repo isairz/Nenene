@@ -52,6 +52,20 @@ const store = new Vuex.Store({
       })
       commit('SET_ITEM', json)
     },
+    UPDATE_ITEM: async ({ commit, state, dispatch }, item) => {
+      const id = state.route.params.id
+      const model = state.route.params.model
+      // if (id !== item.id) return
+      const json = await dispatch('CALL_API', {
+        url: model,
+        method: 'patch',
+        params: {
+          id: `eq.${id}`,
+        },
+        data: item,
+      })
+      return json
+    },
   },
   mutations: {
     SET_LIST: (state, list) => {

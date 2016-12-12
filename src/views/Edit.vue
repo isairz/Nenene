@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import { isArray } from '../helpers/types'
 
 export default {
@@ -36,11 +37,15 @@ export default {
       this.$store.dispatch('FETCH_ITEM')
       .then(() => {
         this.model = this.$store.getters.activeModel
-        this.item = this.$store.getters.activeItem
+        this.item = _.mapValues(this.$store.getters.activeItem, value => {
+          // FIXME: Perry Array of String
+          if (!Array.isArray(value)) return value
+          return `{${value.join(',')}}`
+        })
       })
     },
     handleSubmit (e) {
-      console.log(this.item)
+      this.$store.dispatch('UPDATE_ITEM', this.item)
     },
     isArray,
   },

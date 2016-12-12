@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 import callApi from './callApi'
 import models from '../helpers/models'
+import { openMessage } from './message'
 
 const store = new Vuex.Store({
   state: {
@@ -13,10 +14,22 @@ const store = new Vuex.Store({
     perPage: 20,
   },
   actions: {
-    FETCH_LIST: async ({ commit, state }) => {
+    CALL_API: ({ commit, state }, options) => {
+      return callApi(options).catch(err => {
+        console.log(err)
+        openMessage({
+          type: 'danger',
+          title: 'API Error!',
+          message: err,
+          duration: 0,
+          showCloseButton: true,
+        })
+      })
+    },
+    FETCH_LIST: async ({ commit, state, dispatch }) => {
       const model = state.route.params.model
       const page = state.route.query.page || 1
-      const json = await callApi({
+      const json = await dispatch('CALL_API', {
         url: model,
         params: {
           order: 'id.desc',
@@ -26,11 +39,11 @@ const store = new Vuex.Store({
       })
       commit('SET_LIST', json)
     },
-    FETCH_ITEM: async ({ commit, state }) => {
+    FETCH_ITEM: async ({ commit, state, dispatch }) => {
       commit('SET_ITEM', {})
       const id = state.route.params.id
       const model = state.route.params.model
-      const json = await callApi({
+      const json = await dispatch('CALL_API', {
         url: model,
         params: {
           id: `eq.${id}`,

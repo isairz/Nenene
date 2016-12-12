@@ -8,7 +8,14 @@
       </thead>
       <tbody>
         <tr v-for="item in items">
-          <td v-for="(type, key) in model" v-if="!isArray(type)">{{ item[key] }}</td>
+          <td v-for="(type, key) in model" v-if="!isArray(type)">
+            <router-link v-if="key === 'id'" :to="`edit/${item.id}`" append>
+              {{ item[key] }}
+            </router-link>
+            <template v-else>
+              {{ item[key] }}
+            </template>
+          </td>
         </tr>
       </tbody>
     </table>

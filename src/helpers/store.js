@@ -26,17 +26,34 @@ const store = new Vuex.Store({
       })
       commit('SET_LIST', json)
     },
+    FETCH_ITEM: async ({ commit, state }) => {
+      commit('SET_ITEM', {})
+      const id = state.route.params.id
+      const model = state.route.params.model
+      const json = await callApi({
+        url: model,
+        params: {
+          id: `eq.${id}`,
+        },
+        single: true,
+      })
+      commit('SET_ITEM', json)
+    },
   },
   mutations: {
     SET_LIST: (state, list) => {
       state.list = list
     },
+    SET_ITEM: (state, item) => {
+      state.item = item
+    },
   },
 
   getters: {
     activeModel: state => models[state.route.params.model],
-    activeItems: state => state.list,
     activePage: state => state.route.query.page || 1,
+    activeItems: state => state.list,
+    activeItem: state => state.item,
   },
 })
 

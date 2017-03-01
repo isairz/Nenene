@@ -4,11 +4,12 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 import callApi from './callApi'
-import models from '../helpers/models'
+import models from '../config/models'
 import { openMessage } from './message'
 
 const store = new Vuex.Store({
   state: {
+    models: models,
     list: [],
     item: {},
     perPage: 20,
@@ -77,7 +78,8 @@ const store = new Vuex.Store({
   },
 
   getters: {
-    activeModel: state => models[state.route.params.model],
+    models: state => state.models,
+    activeModel: state => state.models[state.route.params.model],
     activePage: state => state.route.query.page || 1,
     activeItems: state => state.list,
     activeItem: state => state.item,

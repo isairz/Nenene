@@ -1,4 +1,4 @@
-import { ARRAY, INTEGER, STRING } from './types'
+import { ARRAY, INTEGER, STRING } from '../helpers/types'
 
 const models = {
   mangas: {

@@ -15,11 +15,10 @@
 </template>
 
 <script>
-import models from '../helpers/models'
 export default {
   data () {
     return {
-      models: models,
+      models: this.$store.getters.models,
     }
   },
 }
